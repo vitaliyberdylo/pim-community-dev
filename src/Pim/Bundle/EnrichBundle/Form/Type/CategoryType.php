@@ -17,18 +17,10 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  */
 class CategoryType extends AbstractType
 {
-    /**
-     * Entity FQCN
-     *
-     * @var string
-     */
+    /** @var string Entity FQCN */
     protected $className;
 
-    /**
-     * Translation entity FQCN
-     *
-     * @var string
-     */
+    /** @var string Translation entity FQCN */
     protected $translationClassName;
 
     /** @var EventSubscriberInterface[] */
@@ -42,7 +34,7 @@ class CategoryType extends AbstractType
      */
     public function __construct($className, $translationClassName)
     {
-        $this->className = $className;
+        $this->className            = $className;
         $this->translationClassName = $translationClassName;
     }
 
@@ -74,12 +66,12 @@ class CategoryType extends AbstractType
         $builder->add(
             'label',
             'pim_translatable_field',
-            array(
+            [
                 'field'             => 'label',
                 'translation_class' => $this->translationClassName,
                 'entity_class'      => $this->className,
                 'property_path'     => 'translations'
-            )
+            ]
         );
     }
 
@@ -89,9 +81,9 @@ class CategoryType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(
-            array(
+            [
                 'data_class'  => $this->className
-            )
+            ]
         );
     }
 

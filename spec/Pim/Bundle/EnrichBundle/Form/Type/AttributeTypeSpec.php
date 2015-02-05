@@ -18,7 +18,12 @@ class AttributeTypeSpec extends ObjectBehavior
     ) {
         $manager->getAttributeTypes()->willReturn(['text', 'number', 'email']);
 
-        $this->beConstructedWith('Pim\Bundle\CatalogBundle\Entity\Attribute', $manager, $subscriber);
+        $this->beConstructedWith(
+            $manager,
+            $subscriber,
+            'Pim\\Bundle\\CatalogBundle\\Entity\\AttributeTranslation',
+            'Pim\Bundle\CatalogBundle\Entity\Attribute'
+        );
     }
 
     function it_has_a_name()

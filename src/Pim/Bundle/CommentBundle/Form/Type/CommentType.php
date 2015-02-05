@@ -36,7 +36,7 @@ class CommentType extends AbstractType
     {
         $this->repository = $repository;
         $this->translator = $translator;
-        $this->className = $className;
+        $this->className  = $className;
     }
 
     /**
@@ -69,7 +69,7 @@ class CommentType extends AbstractType
         $resolver->setDefaults(
             [
                 'data_class' => $this->className,
-                'is_reply' => false
+                'is_reply'   => false
             ]
         );
     }

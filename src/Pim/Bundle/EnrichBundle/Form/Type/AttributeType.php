@@ -17,38 +17,37 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  */
 class AttributeType extends AbstractType
 {
-    /**
-     * Attribute type manager
-     * @var AttributeManager
-     */
+    /** @var AttributeManager Attribute type manager */
     protected $attributeManager;
 
-    /**
-     * Attribute subscriber
-     * @var AddAttributeTypeRelatedFieldsSubscriber
-     */
+    /** @var AddAttributeTypeRelatedFieldsSubscriber Attribute subscriber */
     protected $subscriber;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $attributeClass;
+
+    /** @var string */
+    protected $attributeTranslation;
 
     /**
      * Constructor
      *
-     * @param string                                  $attributeClass Attribute class
-     * @param AttributeManager                        $manager        Attribute manager
-     * @param AddAttributeTypeRelatedFieldsSubscriber $subscriber     Subscriber to add attribute type related fields
+     * @param AttributeManager                        $manager              Attribute manager
+     * @param AddAttributeTypeRelatedFieldsSubscriber $subscriber           Subscriber to add attribute type
+     *                                                                      related fields
+     * @param string                                  $attributeTranslation
+     * @param string                                  $attributeClass       Attribute class
      */
     public function __construct(
-        $attributeClass,
         AttributeManager $manager,
-        AddAttributeTypeRelatedFieldsSubscriber $subscriber
+        AddAttributeTypeRelatedFieldsSubscriber $subscriber,
+        $attributeTranslation,
+        $attributeClass
     ) {
-        $this->attributeClass   = $attributeClass;
-        $this->attributeManager = $manager;
-        $this->subscriber       = $subscriber;
+        $this->attributeManager     = $manager;
+        $this->subscriber           = $subscriber;
+        $this->attributeClass       = $attributeClass;
+        $this->attributeTranslation = $attributeTranslation;
     }
 
     /**
@@ -101,7 +100,7 @@ class AttributeType extends AbstractType
      */
     protected function addFieldCode(FormBuilderInterface $builder)
     {
-        $builder->add('code', 'text', array('required' => true));
+        $builder->add('code', 'text', ['required' => true]);
     }
 
     /**
@@ -110,7 +109,7 @@ class AttributeType extends AbstractType
      */
     protected function addFieldUnique(FormBuilderInterface $builder)
     {
-        $builder->add('unique', 'choice', array('choices' => array('No', 'Yes')));
+        $builder->add('unique', 'choice', ['choices' => ['No', 'Yes']]);
     }
 
     /**
@@ -121,12 +120,12 @@ class AttributeType extends AbstractType
         $builder->add(
             'attributeType',
             'choice',
-            array(
+            [
                 'choices'   => $this->getAttributeTypeChoices(),
                 'select2'   => true,
                 'disabled'  => true,
                 'read_only' => true
-            )
+            ]
         );
     }
 
@@ -139,12 +138,12 @@ class AttributeType extends AbstractType
         $builder->add(
             'label',
             'pim_translatable_field',
-            array(
+            [
                 'field'             => 'label',
-                'translation_class' => 'Pim\\Bundle\\CatalogBundle\\Entity\\AttributeTranslation',
+                'translation_class' => $this->attributeTranslation,
                 'entity_class'      => $this->attributeClass,
                 'property_path'     => 'translations'
-            )
+            ]
         );
     }
 
@@ -157,13 +156,13 @@ class AttributeType extends AbstractType
         $builder->add(
             'group',
             'entity',
-            array(
+            [
                 'class'       => 'Pim\Bundle\CatalogBundle\Entity\AttributeGroup',
                 'required'    => true,
                 'multiple'    => false,
                 'empty_value' => 'Choose the attribute group',
                 'select2'     => true
-            )
+            ]
         );
     }
 
@@ -202,7 +201,7 @@ class AttributeType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class' => $this->attributeClass,
+                'data_class'         => $this->attributeClass,
                 'cascade_validation' => true
             ]
         );

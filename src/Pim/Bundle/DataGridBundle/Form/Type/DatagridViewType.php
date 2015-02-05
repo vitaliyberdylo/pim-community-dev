@@ -15,6 +15,17 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  */
 class DatagridViewType extends AbstractType
 {
+    /** @var string */
+    protected $className;
+
+    /**
+     * @param string $className
+     */
+    public function __construct($className)
+    {
+        $this->className = $className;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -33,7 +44,7 @@ class DatagridViewType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class' => 'Pim\Bundle\DataGridBundle\Entity\DatagridView'
+                'data_class' => $this->className,
             ]
         );
     }

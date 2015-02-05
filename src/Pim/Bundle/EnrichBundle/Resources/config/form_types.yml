@@ -98,27 +98,37 @@ services:
         tags:
             - { name: form.type, alias: pim_enrich_attribute }
         arguments:
-            - %pim_catalog.entity.attribute.class%
             - '@pim_catalog.manager.attribute'
             - '@pim_enrich.form.subscriber.attribute'
+            - %pim_catalog.entity.attribute.class%
+            - %pim_catalog.entity.attribute_translation.class%
+            - %pim_catalog.entity.attribute_option.class%
 
     pim_enrich.form.type.attribute_option:
         class: %pim_enrich.form.type.attribute_option.class%
+        arguments:
+            - %pim_catalog.entity.attribute_option.class%
         tags:
             - { name: form.type, alias: pim_enrich_attribute_option }
 
     pim_enrich.form.type.attribute_option_value:
         class: %pim_enrich.form.type.attribute_option_value.class%
+        arguments:
+            - %pim_catalog.entity.attribute_option_value.class%
         tags:
             - { name: form.type, alias: pim_enrich_attribute_option_value }
 
     pim_enrich.form.type.attribute_option_create:
         class: %pim_enrich.form.type.attribute_option_create.class%
+        arguments:
+            - %pim_catalog.entity.attribute_option.class%
         tags:
             - { name: form.type, alias: pim_attribute_option_create }
 
     pim_enrich.form.type.attribute_group:
         class: %pim_enrich.form.type.attribute_group.class%
+        arguments:
+            - %pim_catalog.entity.attribute_group.class%
         tags:
             - { name: form.type, alias: pim_enrich_attribute_group }
         calls:
@@ -136,6 +146,8 @@ services:
 
     pim_enrich.form.type.attribute_requirement:
         class: %pim_enrich.form.type.attribute_requirement.class%
+        arguments:
+            - %pim_catalog.entity.attribute_requirement.class%
         tags:
             - { name: form.type, alias: pim_enrich_attribute_requirement }
 
@@ -161,6 +173,8 @@ services:
 
     pim_enrich.form.type.media:
         class: %pim_enrich.form.type.product_value_media.class%
+        arguments:
+            - %pim_catalog.entity.product_media.class%
         tags:
             - { name: form.type, alias: pim_enrich_media }
 
@@ -178,6 +192,7 @@ services:
             - '@pim_catalog.manager.locale'
             - '@pim_catalog.helper.locale'
             - '@pim_enrich.provider.colors'
+            - %pim_catalog.entity.category.class%
             - %pim_catalog.entity.category.class%
         tags:
             - { name: form.type, alias: pim_enrich_channel }
@@ -219,27 +234,31 @@ services:
 
     pim_enrich.form.type.association_type:
         class: %pim_enrich.form.type.association_type.class%
+        arguments:
+            - %pim_catalog.entity.association_type.class%
         tags:
             - { name: form.type, alias: pim_enrich_association_type }
 
     pim_enrich.form.type.available_attributes:
         class: %pim_enrich.form.type.available_attributes.class%
         arguments:
-            - %pim_catalog.entity.attribute.class%
             - '@pim_catalog.repository.attribute'
             - '@pim_user.context.user'
             - '@translator'
+            - %pim_catalog.entity.attribute.class%
+            - %pim_enrich.form.type.available_attributes.class%
         tags:
             - { name: form.type, alias: pim_available_attributes }
 
     pim_enrich.form.type.association:
         class: %pim_enrich.form.type.association.class%
         arguments:
-            - %pim_catalog.entity.product.class%
             - '@pim_catalog.repository.product'
             - '@doctrine.orm.entity_manager'
+            - %pim_catalog.entity.product.class%
             - %pim_catalog.entity.association_type.class%
             - %pim_catalog.entity.group.class%
+            - %pim_catalog.entity.association.class%
         tags:
             - { name: form.type, alias: pim_enrich_association }
 
